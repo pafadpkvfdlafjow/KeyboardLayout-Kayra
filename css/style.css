@@ -3,12 +3,13 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
-    
+    flex-direction: column;
 }
 
 img{
     width: 60%;
-    height: 45%;
+    height: 40%;
+    transform: translate(0,60%);
 }
 
 #GridMain{
@@ -16,5 +17,5 @@ img{
     height: 45%;
     border: solid;
     box-sizing: border-box;
-    flex-direction: row;
+    transform: translate(0,-45%);
 }
