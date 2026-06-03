@@ -7,7 +7,9 @@ function StartRound(){
 }
 
 document.addEventListener("keydown", (event)=>{
-    
+    var audio = new Audio("filler/popsound.mp3");
+    audio.play();
+
     if ((event.code.includes("Key") || 
     event.code.includes("Digit") || 
     event.code == "Space") && 
