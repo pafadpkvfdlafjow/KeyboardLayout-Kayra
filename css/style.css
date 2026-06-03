@@ -1,24 +1,30 @@
 body{
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
     margin: 0;
 }
 
-img{
-    width: 55%;
-    height: 43%;
-    position: absolute;
-    transform: translate(0,6%);
+#TypeBar{
+    width: 80%;
+    height: 15%;
+    background-color: rgb(236, 236, 236);
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 200%;
+
+    margin: 3% 0 3% 0;
 }
 
-#GridMain{
+#Main{
     width: 55%;
     height: 45%;
     box-sizing: border-box;
-    position: absolute;
 }
 
 .row{
@@ -124,5 +130,4 @@ img{
 #row6 div {
     background-color: rgb(218, 218, 218);
     border-radius: 3px;
-    transition: all 0s
 }
