@@ -4,17 +4,66 @@ const text = document.getElementById("Text");
 const promptThing = document.getElementById("Prompt"); 
 
 var promptThingLast = "";
+var RequiredSentence = "";
+var TimeMultiplier = 1;
+
+const sentenceStart = 
+["Robloxia","Among us","Fortnite","Hej","Type shit","Skibidi","Aura monster","Excuse me sir",
+    "Keyboard", "Hippopotomonstrosesquippedaliofobi"
+];
+var currentSentences = sentenceStart;
+var MyInterval
+
+function RoundLost(){
+    console.log("YOU DIED!")
+
+    typeBar.style.width = "0%";
+    text.textContent = "";
+    promptThing.textContent = "";
+
+    activated = false;
+}
+
+function CreateWord(forced){
+    clearInterval(MyInterval);
+
+    text.textContent = "";
+    promptThingLast = "";
+
+    if (forced != undefined){
+        RequiredSentence = forced;
+    }else{
+        RequiredSentence = currentSentences[Math.floor(Math.random() * currentSentences.length)];
+    };
+    promptThing.textContent = RequiredSentence;
+
+    MyInterval = setInterval(function () {
+        RoundLost()
+    }, RequiredSentence.length * TimeMultiplier * 1000);
+    
+
+};
+
+function CheckTyping(){
+    if (text.textContent == RequiredSentence){
+        var audio = new Audio("filler/Ding.mp3");
+        audio.play();
+
+        CreateWord();
+    };
+};
 
 function StartRound(){
     console.log("ITS STARTED");
-    text.textContent = "";
     typeBar.style.transition = "all 1s ease";
     typeBar.style.width = "80%";
     typeBar.style.visibility = "visible";
 
-    promptThing.textContent = "Robloxia";
+    text.visibility = "visible";
+    promptThing.visibility = "visible";
 
-}
+    CreateWord();
+};
 
 document.addEventListener("keydown", (event)=>{
     var audio = new Audio("filler/popsound.mp3");
@@ -37,6 +86,8 @@ document.addEventListener("keydown", (event)=>{
         
             promptThing.textContent = promptThing.textContent.slice(1);
         }
+
+        CheckTyping()
     }else if ((event.code === "Backspace")){
         text.textContent = text.textContent.slice(0, -1);
         
