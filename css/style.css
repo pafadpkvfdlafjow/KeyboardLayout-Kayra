@@ -1,3 +1,14 @@
+@keyframes moveBackground {
+    0%  
+    {
+        background-position: 0% 0%;
+    }
+    100% 
+    {
+        background-position: 400px 400px;
+    }
+}
+
 body{
     display: flex;
     align-items: center;
@@ -5,7 +16,20 @@ body{
     flex-direction: column;
     margin: 0;
     
-    background-image: url("/filler/Background.png");
+    background-image: 
+    linear-gradient(
+            rgba(255,255,255,1),
+            rgba(255,255,255,1)
+        ),
+    url("../filler/Background.png");
+
+    background-size: 400px;  
+    animation: moveBackground;
+    animation-duration: 10s;
+    animation-iteration-count:infinite;
+    animation-timing-function: linear;
+    
+    transition: all 5s linear;
 }
 
 #TypeBar{
@@ -27,12 +51,14 @@ body{
 #Text{
     font-family: 'Courier New', Courier, monospace;
     font-size: 200%;
+    font-weight: bold;
 }
 
 #Prompt{
     font-family: 'Courier New', Courier, monospace;
     font-size: 200%;
     color: red;
+    font-weight: bold;
 }
 
 #Timer{
@@ -55,6 +81,8 @@ body{
     width: 55%;
     height: 45%;
     box-sizing: border-box;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
 }
 
 .row{

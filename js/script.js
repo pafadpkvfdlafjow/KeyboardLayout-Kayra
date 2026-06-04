@@ -6,7 +6,7 @@ const Timer = document.getElementById("Timer");
 
 var promptThingLast = "";
 var RequiredSentence = "";
-var TimeMultiplier = 1;
+var TimeMultiplier = 0.5;
 var CompletedRounds = 0;
 
 var Music = new Audio("filler/VoidExplorer1.mp3");
@@ -31,16 +31,24 @@ function RoundLost(){
     Music.currentTime = 0
     CompletedRounds = 0;
     activated = false;
+
+    document.body.style.backgroundImage =
+    "linear-gradient(rgba(255,255,255,1),rgba(255,255,255,1)), url('./filler/Background.png')";
 }
 
 function Events(){
     if (CompletedRounds == 10){
         Music.play()
+
+        document.body.style.backgroundImage =
+    "linear-gradient(rgba(255,255,255,0.2),rgba(255,255,255,0.2)), url('./filler/Background.png')";
     };
 };
 
 function CreateWord(forced){
     clearInterval(MyInterval);
+
+    Events();
 
     text.textContent = "";
     promptThingLast = "";
@@ -54,7 +62,7 @@ function CreateWord(forced){
     };
     promptThing.textContent = RequiredSentence;
 
-    var totaltime = RequiredSentence.length * TimeMultiplier * 1000
+    var totaltime = RequiredSentence.length * TimeMultiplier * 1000 + 1000
     
     var GotSentence = RequiredSentence;
 
