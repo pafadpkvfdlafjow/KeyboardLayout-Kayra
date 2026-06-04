@@ -2,33 +2,50 @@ var activated = false;
 const typeBar = document.getElementById("TypeBar"); 
 const text = document.getElementById("Text"); 
 const promptThing = document.getElementById("Prompt"); 
+const Timer = document.getElementById("Timer"); 
 
 var promptThingLast = "";
 var RequiredSentence = "";
 var TimeMultiplier = 1;
+var CompletedRounds = 0;
+
+var Music = new Audio("filler/VoidExplorer1.mp3");
+Music.loop = true
 
 const sentenceStart = 
 ["Robloxia","Among us","Fortnite","Hej","Type shit","Skibidi","Aura monster","Excuse me sir",
-    "Keyboard", "Hippopotomonstrosesquippedaliofobi"
+    "Keyboard", "Blender","Happy","Fountain","Earth","123456789","67"
 ];
+
 var currentSentences = sentenceStart;
 var MyInterval
 
 function RoundLost(){
-    console.log("YOU DIED!")
-
     typeBar.style.width = "0%";
     text.textContent = "";
     promptThing.textContent = "";
+    Timer.style.visibility = "hidden";
 
+
+    Music.pause()
+    Music.currentTime = 0
+    CompletedRounds = 0;
     activated = false;
 }
+
+function Events(){
+    if (CompletedRounds == 10){
+        Music.play()
+    };
+};
 
 function CreateWord(forced){
     clearInterval(MyInterval);
 
     text.textContent = "";
     promptThingLast = "";
+
+    CompletedRounds += 1;
 
     if (forced != undefined){
         RequiredSentence = forced;
@@ -37,10 +54,20 @@ function CreateWord(forced){
     };
     promptThing.textContent = RequiredSentence;
 
-    MyInterval = setInterval(function () {
-        RoundLost()
-    }, RequiredSentence.length * TimeMultiplier * 1000);
+    var totaltime = RequiredSentence.length * TimeMultiplier * 1000
     
+    var GotSentence = RequiredSentence;
+
+    MyInterval = setInterval(() => {
+    totaltime-= 100;
+    
+    Timer.textContent = totaltime/1000;  
+
+    if (totaltime <= 0) {
+        clearInterval(MyInterval);
+        RoundLost();
+    }
+}, 100);
 
 };
 
@@ -48,16 +75,16 @@ function CheckTyping(){
     if (text.textContent == RequiredSentence){
         var audio = new Audio("filler/Ding.mp3");
         audio.play();
-
+        
         CreateWord();
     };
 };
 
 function StartRound(){
     console.log("ITS STARTED");
-    typeBar.style.transition = "all 1s ease";
     typeBar.style.width = "80%";
     typeBar.style.visibility = "visible";
+    Timer.style.visibility = "visible";
 
     text.visibility = "visible";
     promptThing.visibility = "visible";
