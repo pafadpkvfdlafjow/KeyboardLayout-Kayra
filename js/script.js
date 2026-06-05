@@ -6,7 +6,7 @@ const Timer = document.getElementById("Timer");
 
 var promptThingLast = "";
 var RequiredSentence = "";
-var TimeMultiplier = 0.5;
+var TimeMultiplier = 1;
 var CompletedRounds = 0;
 
 var Music = new Audio("filler/VoidExplorer1.mp3");

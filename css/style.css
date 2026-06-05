@@ -5,7 +5,7 @@
     }
     100% 
     {
-        background-position: 400px 400px;
+        background-position: 800px 800px;
     }
 }
 
@@ -23,9 +23,9 @@ body{
         ),
     url("../filler/Background.png");
 
-    background-size: 400px;  
+    background-size: 800px;  
     animation: moveBackground;
-    animation-duration: 10s;
+    animation-duration: 20s;
     animation-iteration-count:infinite;
     animation-timing-function: linear;
     
