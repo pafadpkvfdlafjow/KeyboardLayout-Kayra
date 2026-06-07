@@ -6,16 +6,30 @@ const Timer = document.getElementById("Timer");
 
 var promptThingLast = "";
 var RequiredSentence = "";
-var TimeMultiplier = 1;
+var TimeMultiplier = 0.8;
+var TimeStart = 2;
 var CompletedRounds = 0;
 
 var Music = new Audio("filler/VoidExplorer1.mp3");
 Music.loop = true
 
+var RushHour = new Audio("filler/VoidExplorer2.mp3");
+RushHour.loop = true
+
+const forcedSentances = [
+    {sentence: "Are you ready?", round: 9},
+    {sentence: "Good luck", round: 10}, 
+    {sentence: "Hippopotomonstrosesquipedaliophobia", round: 25},
+    {sentence: "Rush hour", round: 39},
+];
+
 const sentenceStart = 
-["Robloxia","Among us","Fortnite","Hej","Type shit","Skibidi","Aura monster","Excuse me sir",
+["Robloxia","Among us","Fortnite","Hey","Type shit","Skibidi","Aura monster","Excuse me sir",
     "Keyboard", "Blender","Happy","Fountain","Earth","123456789","67"
 ];
+
+const rushHour =
+["67","Hi","You?","Fast","Speed","Type","Hello","Rush","Hour","1","9","Bad","Glad","Sir"];
 
 var currentSentences = sentenceStart;
 var MyInterval
@@ -26,9 +40,13 @@ function RoundLost(){
     promptThing.textContent = "";
     Timer.style.visibility = "hidden";
 
+    TimeMultiplier = 0.8;
 
-    Music.pause()
-    Music.currentTime = 0
+    Music.pause();
+    Music.currentTime = 0;
+    RushHour.pause();
+    RushHour.currentTime = 0;
+    
     CompletedRounds = 0;
     activated = false;
 
@@ -42,11 +60,21 @@ function Events(){
 
         document.body.style.backgroundImage =
     "linear-gradient(rgba(255,255,255,0.2),rgba(255,255,255,0.2)), url('./filler/Background.png')";
+    }else if(CompletedRounds == 40){
+        Music.pause();
+        Music.currentTime = 0;
+        RushHour.play();
+        
+        document.body.style.backgroundImage = "url('./filler/Background2.gif')"
+        
+        currentSentences = rushHour;
     };
 };
 
 function CreateWord(forced){
     clearInterval(MyInterval);
+
+    TimeMultiplier -= 0.01
 
     Events();
 
@@ -62,14 +90,14 @@ function CreateWord(forced){
     };
     promptThing.textContent = RequiredSentence;
 
-    var totaltime = RequiredSentence.length * TimeMultiplier * 1000 + 1000
+    var totaltime = RequiredSentence.length * TimeMultiplier * 1000 + (TimeStart*1000)
     
     var GotSentence = RequiredSentence;
 
     MyInterval = setInterval(() => {
     totaltime-= 100;
     
-    Timer.textContent = totaltime/1000;  
+    Timer.textContent = Math.floor(totaltime/100)/10;  
 
     if (totaltime <= 0) {
         clearInterval(MyInterval);
@@ -84,7 +112,21 @@ function CheckTyping(){
         var audio = new Audio("filler/Ding.mp3");
         audio.play();
         
-        CreateWord();
+        var createForcedWowrd = false;
+        var theActualWord = undefined;
+
+        for (let i in forcedSentances) {
+            if (forcedSentances[i].round == CompletedRounds){
+                createForcedWowrd = true;
+                theActualWord = forcedSentances[i].sentence
+            };
+        };
+
+        if (createForcedWowrd){
+            CreateWord(theActualWord);
+        }else{
+            CreateWord();
+        };
     };
 };
 
@@ -112,7 +154,8 @@ document.addEventListener("keydown", (event)=>{
 
     if ((event.code.includes("Key") || 
     event.code.includes("Digit") || 
-    event.code == "Space") && 
+    event.code == "Space" ||
+    event.key == "?") && 
      text.textContent.length < 36){
         text.textContent += event.key;
 
