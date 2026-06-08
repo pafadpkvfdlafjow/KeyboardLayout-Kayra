@@ -1,3 +1,7 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
+
 @keyframes moveBackground {
     0%  
     {
@@ -48,14 +52,19 @@ body{
     transition: all 1s ease;
 }
 
+#Score{
+    visibility: hidden;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+
+}
+
 #Text{
-    font-family: 'Courier New', Courier, monospace;
     font-size: 200%;
     font-weight: bold;
 }
 
 #Prompt{
-    font-family: 'Courier New', Courier, monospace;
     font-size: 200%;
     color: red;
     font-weight: bold;
@@ -68,7 +77,6 @@ body{
     height: 5%;
     text-align: center;
     
-    font-family: 'Courier New', Courier, monospace;
     font-size: 150%;
 
     margin: 0 0 1% 0;

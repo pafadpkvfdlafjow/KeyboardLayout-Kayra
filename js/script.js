@@ -1,19 +1,22 @@
-var activated = false;
+let activated = false;
 const typeBar = document.getElementById("TypeBar"); 
 const text = document.getElementById("Text"); 
 const promptThing = document.getElementById("Prompt"); 
 const Timer = document.getElementById("Timer"); 
+const Score = document.getElementById("Score"); 
 
-var promptThingLast = "";
-var RequiredSentence = "";
-var TimeMultiplier = 0.8;
-var TimeStart = 2;
-var CompletedRounds = 0;
+let promptThingLast = "";
+let RequiredSentence = "";
+let TimeMultiplier = 0.8;
+let TimeStart = 2;
+let CompletedRounds = 0;
+let currentScore = 0;
+let totalTime = 0;
 
-var Music = new Audio("filler/VoidExplorer1.mp3");
+let Music = new Audio("filler/VoidExplorer1.mp3");
 Music.loop = true
 
-var RushHour = new Audio("filler/VoidExplorer2.mp3");
+let RushHour = new Audio("filler/VoidExplorer2.mp3");
 RushHour.loop = true
 
 const forcedSentances = [
@@ -25,14 +28,15 @@ const forcedSentances = [
 
 const sentenceStart = 
 ["Robloxia","Among us","Fortnite","Hey","Type shit","Skibidi","Aura monster","Excuse me sir",
-    "Keyboard", "Blender","Happy","Fountain","Earth","123456789","67"
+    "Keyboard", "Blender","Happy","Fountain","Earth","123456789","67","Low taper fade","61",
+    "Null"
 ];
 
 const rushHour =
 ["67","Hi","You?","Fast","Speed","Type","Hello","Rush","Hour","1","9","Bad","Glad","Sir"];
 
-var currentSentences = sentenceStart;
-var MyInterval
+let currentSentences = sentenceStart;
+let MyInterval
 
 function RoundLost(){
     typeBar.style.width = "0%";
@@ -46,8 +50,12 @@ function RoundLost(){
     Music.currentTime = 0;
     RushHour.pause();
     RushHour.currentTime = 0;
+
+    currentScore = 0;
     
     CompletedRounds = 0;
+
+    currentSentences = sentenceStart;
     activated = false;
 
     document.body.style.backgroundImage =
@@ -65,7 +73,9 @@ function Events(){
         Music.currentTime = 0;
         RushHour.play();
         
-        document.body.style.backgroundImage = "url('./filler/Background2.gif')"
+        document.body.style.backgroundImage = 
+            "linear-gradient(rgba(255,255,255,0.2),rgba(255,255,255,0.2)), url('./filler/Background2.png')";
+
         
         currentSentences = rushHour;
     };
@@ -90,16 +100,14 @@ function CreateWord(forced){
     };
     promptThing.textContent = RequiredSentence;
 
-    var totaltime = RequiredSentence.length * TimeMultiplier * 1000 + (TimeStart*1000)
+    totalTime = RequiredSentence.length * TimeMultiplier * 1000 + (TimeStart*1000)
     
-    var GotSentence = RequiredSentence;
-
     MyInterval = setInterval(() => {
-    totaltime-= 100;
+    totalTime-= 100;
     
-    Timer.textContent = Math.floor(totaltime/100)/10;  
+    Timer.textContent = Math.floor(totalTime/100)/10;  
 
-    if (totaltime <= 0) {
+    if (totalTime <= 0) {
         clearInterval(MyInterval);
         RoundLost();
     }
@@ -109,11 +117,15 @@ function CreateWord(forced){
 
 function CheckTyping(){
     if (text.textContent == RequiredSentence){
-        var audio = new Audio("filler/Ding.mp3");
+        let audio = new Audio("filler/Ding.mp3");
         audio.play();
+
+        currentScore += Math.ceil(totalTime/10);
         
-        var createForcedWowrd = false;
-        var theActualWord = undefined;
+        Score.textContent = "SCORE: " + currentScore;
+        
+        let createForcedWowrd = false;
+        let theActualWord = undefined;
 
         for (let i in forcedSentances) {
             if (forcedSentances[i].round == CompletedRounds){
@@ -139,11 +151,13 @@ function StartRound(){
     text.visibility = "visible";
     promptThing.visibility = "visible";
 
+    Score.style.visibility = "visible";
+
     CreateWord();
 };
 
 document.addEventListener("keydown", (event)=>{
-    var audio = new Audio("filler/popsound.mp3");
+    let audio = new Audio("filler/popsound.mp3");
     audio.play();
 
     if (!activated){
