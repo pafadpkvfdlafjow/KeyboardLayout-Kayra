@@ -32,8 +32,6 @@ body{
     animation-duration: 20s;
     animation-iteration-count:infinite;
     animation-timing-function: linear;
-    
-    transition: all 5s linear;
 }
 
 #TypeBar{
