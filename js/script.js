@@ -16,8 +16,6 @@ let totalTime = 0;
 let Music = new Audio("filler/VoidExplorer1.mp3");
 Music.loop = true
 
-let loseSound = new Audio("filler/lose.wav");
-
 let RushHour = new Audio("filler/VoidExplorer2.mp3");
 RushHour.loop = true
 
@@ -40,16 +38,19 @@ const rushHour =
 let currentSentences = sentenceStart;
 let MyInterval
 
+
 function YouSuckAtThis(){
     const loseImage = document.createElement("img");  
     document.body.appendChild(loseImage);
     loseImage.src = "./filler/Celestial_Idle.gif";
     loseImage.style.position = "fixed";
-
-    loseSound:play();
     
+    let loseSound = new Audio("filler/lose.wav");
+    loseSound.play()
+
     MyInterval = setInterval(() => {
-        removeChild(loseImage);
+        loseImage.parentNode.removeChild(loseImage);
+        activated = false;
     }, 2000);
 };
 
@@ -73,8 +74,6 @@ function RoundLost(){
     currentSentences = sentenceStart;
     
     YouSuckAtThis();
-
-    activated = false;
 
     document.body.style.backgroundImage =
     "linear-gradient(rgba(255,255,255,1),rgba(255,255,255,1)), url('./filler/Background.png')";
@@ -166,6 +165,8 @@ function StartRound(){
     typeBar.style.visibility = "visible";
     Timer.style.visibility = "visible";
 
+    currentScore = 0;
+
     text.visibility = "visible";
     promptThing.visibility = "visible";
 
@@ -206,6 +207,9 @@ document.addEventListener("keydown", (event)=>{
 
             promptThingLast = promptThingLast.slice(1)
         };
+    }else if ((event.code === "Delete")){
+      text.textContent = "";
+       promptThing.textContent = RequiredSentence;
     };
 
 
