@@ -16,6 +16,8 @@ let totalTime = 0;
 let Music = new Audio("filler/VoidExplorer1.mp3");
 Music.loop = true
 
+let loseSound = new Audio("filler/lose.wav");
+
 let RushHour = new Audio("filler/VoidExplorer2.mp3");
 RushHour.loop = true
 
@@ -38,6 +40,19 @@ const rushHour =
 let currentSentences = sentenceStart;
 let MyInterval
 
+function YouSuckAtThis(){
+    const loseImage = document.createElement("img");  
+    document.body.appendChild(loseImage);
+    loseImage.src = "./filler/Celestial_Idle.gif";
+    loseImage.style.position = "fixed";
+
+    loseSound:play();
+    
+    MyInterval = setInterval(() => {
+        removeChild(loseImage);
+    }, 2000);
+};
+
 function RoundLost(){
     typeBar.style.width = "0%";
     text.textContent = "";
@@ -56,6 +71,9 @@ function RoundLost(){
     CompletedRounds = 0;
 
     currentSentences = sentenceStart;
+    
+    YouSuckAtThis();
+
     activated = false;
 
     document.body.style.backgroundImage =
@@ -103,15 +121,15 @@ function CreateWord(forced){
     totalTime = RequiredSentence.length * TimeMultiplier * 1000 + (TimeStart*1000)
     
     MyInterval = setInterval(() => {
-    totalTime-= 100;
-    
-    Timer.textContent = Math.floor(totalTime/100)/10;  
+        totalTime-= 100;
+        
+        Timer.textContent = Math.floor(totalTime/100)/10;  
 
-    if (totalTime <= 0) {
-        clearInterval(MyInterval);
-        RoundLost();
-    }
-}, 100);
+        if (totalTime <= 0) {
+            clearInterval(MyInterval);
+            RoundLost();
+        }
+    }, 100);
 
 };
 
